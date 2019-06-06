@@ -182,6 +182,8 @@ def main():
                 if img2[i][j][0] == color[n][0] and img2[i][j][1] == color[n][1] and img2[i][j][2] == color[n][2]:
                     cv2.line(img3, (j, i), (j, i), (255,0,0), 1)
 
+        cv2.imshow('Image2', img3)
+        cv2.waitKey(0)
 
         gray = cv2.cvtColor(img3, cv2.COLOR_BGR2GRAY)
         contours, hierarchy = cv2.findContours(gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
@@ -192,13 +194,22 @@ def main():
             area = cv2.contourArea(cnt)
             peri = cv2.arcLength(j, True)
             approx = cv2.approxPolyDP(j, 0.02 * peri, True)
-            #print(area)
-            if len(approx) == 4 or len(approx) == 3:
-                if area >= 1840 and area < 10000: #尚未確定如何界定面積範圍
+            print(area)
+            if len(approx) == 4:
+                d1 = int(distance(approx[0][0][0], approx[2][0][0], approx[0][0][1], approx[2][0][1]))
+                d2 = int(distance(approx[1][0][0], approx[3][0][0], approx[1][0][1], approx[3][0][1]))
+                if math.fabs(d1 - d2) < 5:
+                    if area >= 1700 and area < 10000:  # 尚未確定如何界定面積範圍
+                        cv2.drawContours(img, j, -1, (0, 0, 255), 2)
+            if len(approx) == 3:
+
+                if area >= 1700 and area < 10000: #尚未確定如何界定面積範圍
                     cv2.drawContours(img, j, -1, (0, 0, 255), 2)
+                    cv2.imshow('Image', img)
+                    cv2.waitKey(0)
             a+=1
 
-    cv2.imshow('Image', img)
+    cv2.imshow('Image2', img)
     cv2.waitKey(0)
 
 if __name__ == '__main__':
