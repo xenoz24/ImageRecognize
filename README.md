@@ -12,3 +12,4 @@ python 3.7
 辨認非重疊的圖形，並標示出來  
 
 ![image](https://github.com/xenoz24/ImageRecognize/blob/master/Image2.png)
+ 
